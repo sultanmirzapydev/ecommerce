@@ -1,0 +1,28 @@
+ <!-- {{qs}}
+
+
+
+
+{{paginator}}
+<br>
+{{is_paginated}}
+<br>
+{{page_obj}}
+<br>
+{{object_list}}
+<br>
+{{product_list}}
+<br>
+{{view}}    -->
+
+
+
+
+{% for obj in object_list %}
+
+{{obj.title}}
+<br>
+{{obj.description }}
+<br>
+
+{% endfor %}

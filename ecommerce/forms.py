@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 
 class ContactForm(forms.Form):
 	fullname  = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'your full name'}))
@@ -20,6 +22,22 @@ class RegisterForm(forms.Form):
 	email    = forms.EmailField()
 	password = forms.CharField(widget=forms.PasswordInput)
 	password2= forms.CharField(label= 'confirm password', widget=forms.PasswordInput)
+
+	def clean_username(self):
+		username = self.cleaned_data.get('username')
+		check    = User.objects.filter(username=username)
+		if check.exists():
+			raise forms.ValidationError('username is taken, use new username')
+		return username
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+		qs    = User.objects.filter(email=email)
+		if qs.exists():
+			raise forms.ValidationError('email is already taken')
+		return email
+
+
 
 	def clean(self):
 		data = self.cleaned_data
